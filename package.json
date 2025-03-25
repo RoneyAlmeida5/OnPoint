@@ -1,0 +1,68 @@
+{
+  "name": "mf",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@gluestack-ui/icon": "^0.1.25",
+    "@gluestack-ui/nativewind-utils": "^1.0.26",
+    "@gluestack-ui/overlay": "^0.1.16",
+    "@gluestack-ui/toast": "^1.0.8",
+    "@mui/icons-material": "^6.4.8",
+    "@mui/material": "^6.4.8",
+    "@nestjs/common": "^11.0.11",
+    "@nestjs/core": "^11.0.11",
+    "@nestjs/jwt": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.11",
+    "@nestjs/typeorm": "^11.0.0",
+    "axios": "^1.7.9",
+    "cra-template": "1.2.0",
+    "jwt-decode": "^4.0.0",
+    "lucide-react": "^0.475.0",
+    "mysql2": "^3.13.0",
+    "react": "^19.0.0",
+    "react-autocomplete": "^1.8.1",
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0",
+    "react-router": "^7.1.5",
+    "react-scripts": "5.0.1",
+    "react-toastify": "^11.0.5",
+    "react-ui-cards": "^3.1.0",
+    "styled-components": "^6.1.15",
+    "typeorm": "^0.3.21",
+    "xlsx": "^0.18.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@nestjs/cli": "^11.0.5",
+    "@nestjs/schematics": "^11.0.2",
+    "@nestjs/testing": "^11.0.11",
+    "jscodeshift": "^0.15.2",
+    "web-vitals": "^4.2.4"
+  }
+}

@@ -1,0 +1,426 @@
+* {
+  margin: 0;
+}
+/* BACKGROUND PAGE */
+.ContainerMerc {
+  overflow-y: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #08090b 0%, #e6e5e5 50%, #08090b 100%);
+  font-family: Arial, sans-serif;
+}
+.ImgMerc {
+  width: 380px;
+  height: 270px;
+}
+
+/* HEADER BOX CARRINHO */
+.ScrollContainer {
+  display: flex;
+  align-items: flex-end; /* Alinha os elementos à direita */
+  justify-content: flex-start; /* Alinha os elementos no topo */
+  width: 81%;
+  white-space: nowrap;
+  padding: 3px;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+/* ESTILIZAÇÃO DO CAIXA ABERTO */
+.CardBox {
+  height: 50px;
+  border-radius: 50px;
+  box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+    rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset,
+    rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px,
+    rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+    rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  flex-grow: 1;
+  width: auto;
+  min-width: 150px;
+}
+.TextBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-size: 21px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin: 1rem 0;
+}
+.CardBox.Box_Open {
+  background-color: rgb(0, 195, 0); /* Cor verde para caixa aberta */
+  color: white; /* Cor do texto branco para melhor contraste */
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  transition-delay: 0.1s;
+  transform: translateY(-20%);
+  opacity: 0.98;
+}
+.CardBox.Box_Close {
+  background-color: rgb(255, 57, 57); /* Cor vermelha para caixa fechada */
+  color: white; /* Cor do texto branco para melhor contraste */
+  transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+  transition-delay: 0.05s;
+  transform: translateY(-0%);
+  opacity: 0.6;
+}
+
+/* ESTILIZAÇÃO DO MODAL */
+/* BOTÃO DE VENDAS */
+.Btn_Sales {
+  align-items: center;
+  justify-content: center;
+  background: #e6e5e5;
+  width: 68px;
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+.Btn_Sales:hover {
+  background: linear-gradient(135deg, #e6e5e5 0%, #a1a6bb 50%, #344dcc 100%);
+  transform: translateY(0.4em);
+}
+/* CONTAINER DO MODAL */
+.Box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* MODAL DE ADICIONAL PRODUTO*/
+.ScreenModalAdcProd {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  gap: 20px;
+  width: 500px;
+  background: linear-gradient(135deg, #777777 0%, #050a23 50%, #777777 100%);
+  border-radius: 15px;
+  padding: 20px;
+}
+.PainelModalAdcProd {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.PainelModalAdcProd h2 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  color: #9e9e9e;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 2rem 0;
+  text-align: center;
+}
+.InputModalAdcProd {
+  width: 96%;
+  padding: 11px;
+  border: 1px solid #005eff;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.323);
+}
+.InputModalAdcProd:focus {
+  background-color: white;
+  transform: scale(1.01);
+  box-shadow: 0px 2px 25px #969696, -0px -2px 25px #ffffff;
+}
+p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 17px;
+  color: #ff1d1d;
+  margin-bottom: 5px;
+}
+
+/* MODAL DE LISTA DE PRODUTOS */
+.ScreenModalListProd {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+}
+.PainelModalListProd {
+  flex: 2;
+  background: linear-gradient(135deg, #777777 0%, #050a23 50%, #777777 100%);
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+.PainelModalListProd h2 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  color: #9e9e9e;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 1.5rem 0;
+  text-align: center;
+}
+.TableModalListProd {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.ThModelListProd {
+  border: 1px solid #000000;
+  background: linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%);
+  width: 1700px;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.TdCModelListProd {
+  background-color: #fff;
+  border-bottom: 1px solid #ffffff;
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #000000;
+  font-weight: bold;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.TdModelListProd {
+  background-color: #fff;
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #000000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.ThModelListProd_Edit {
+  border: 1px solid #000000;
+  background: linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%);
+  width: 800x;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.TdModelListProd_Edit {
+  background-color: #fff;
+  padding: 10px;
+  text-align: center;
+  border: 0.5px solid #000000;
+}
+
+/* MODAL DE TROCO */
+.ScreenModalTroco {
+  background: linear-gradient(135deg, #777777 0%, #050a23 50%, #777777 100%);
+  padding: 20px;
+  color: black;
+  border-radius: 15px;
+}
+.PainelModalTroco {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.InputModalTroco {
+  opacity: 0.5;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  width: 96%;
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.PainelModalTroco h1 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  color: #9e9e9e;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  text-align: center;
+}
+.PainelModalTroco h3 {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 1rem 0;
+  text-align: center;
+}
+.BoxTroco {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  border: 1px solid #344dcc;
+  border-radius: 15px;
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* PAINEL LEFT */
+.Screen {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  gap: 20px;
+  width: 80%;
+  background: #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 31, 132, 0.412);
+}
+.LeftPanel {
+  flex: 2;
+  background: linear-gradient(
+    135deg,
+    #08090bbf 0%,
+    #e6e5e5 50%,
+    #08090ba0 100%
+  );
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+}
+.TableMerc {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.Th {
+  background: linear-gradient(135deg, #0b0101d6 0%, #363636c5 150%);
+  border: 1px solid #000;
+  width: 1700px;
+  color: white;
+  padding: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.Th_Delete {
+  background: linear-gradient(135deg, #0b0101d6 0%, #363636c5 150%);
+  border: 1px solid #000;
+  width: 100px;
+  color: white;
+  padding: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.TdC {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  color: rgb(165, 171, 255);
+  border: 1px solid #000;
+  font-weight: bold;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.Td {
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+  border: 1px solid #000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.Td_Delete {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+.Btn_Delete {
+  background-color: transparent;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+.Btn_Delete:hover {
+  background-color: #ffb1b1;
+  transform: translateY(0.1em);
+}
+.TotalMerc {
+  position: fixed;
+  bottom: 3%;
+  right: 80%;
+  background: linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 25px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* PAINEL RIGHT */
+
+.RightPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.LeftPanel h2 {
+  padding-bottom: 10px;
+}
+.SelectMerc {
+  padding: 11px;
+  border: 2px solid #112585;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    border-color: #002faf;
+  }
+
+  &:focus {
+    border-color: #0022ff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+}
+.InputMerc {
+  width: 94%;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+.InputMercProd {
+  width: 100%;
+  padding: 2px;
+  border: 1px solid #333333;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}

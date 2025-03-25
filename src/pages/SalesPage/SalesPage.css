@@ -1,0 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.ContainerSales {
+  min-height: 100vh; /* Faz com que o fundo ocupe a altura total da tela */
+  background: linear-gradient(135deg, #08090b 0%, #e6e5e5 50%, #08090b 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.Input_Filter {
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding: 1em;
+  background-color: #ffffff;
+  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
+  transition: 300ms ease-in-out;
+}
+.Input_Filter:focus {
+  background-color: white;
+  transform: scale(1.05);
+  box-shadow: 13px 13px 100px #969696, -13px -13px 100px #ffffff;
+}
+
+.ContainerSales_Table {
+  width: 180vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.ScrollContainerSales {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 180vh;
+  gap: 10px;
+}
+
+.ImgSales {
+  width: 270px;
+  height: 200px;
+}
+
+.Btn_Back {
+  background: #ffffff;
+  width: 68px;
+  height: 48px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+  transition: transform 0.5s;
+}
+.Btn_Back:hover {
+  background-color: #bebebe;
+  transform: translateY(0.4em);
+}
