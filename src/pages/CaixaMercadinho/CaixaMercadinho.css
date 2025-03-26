@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(135deg, #08090b 0%, #e6e5e5 50%, #08090b 100%);
+  background: linear-gradient(135deg, #45474a 0%, #e6e5e5 50%, #45474a 110%);
   font-family: Arial, sans-serif;
 }
 .ImgMerc {
@@ -71,11 +71,9 @@
 }
 
 /* ESTILIZAÇÃO DO MODAL */
-/* BOTÃO DE VENDAS */
-.Btn_Sales {
-  align-items: center;
-  justify-content: center;
-  background: #e6e5e5;
+/* BOTÕES */
+.Btns_Headers {
+  background: #ffffff;
   width: 68px;
   height: 48px;
   border-radius: 10px;
@@ -83,8 +81,8 @@
   cursor: pointer;
   transition: transform 0.5s;
 }
-.Btn_Sales:hover {
-  background: linear-gradient(135deg, #e6e5e5 0%, #a1a6bb 50%, #344dcc 100%);
+.Btns_Headers:hover {
+  background-color: #bebebe;
   transform: translateY(0.4em);
 }
 /* CONTAINER DO MODAL */
@@ -111,7 +109,7 @@
   margin-bottom: 20px;
   gap: 20px;
   width: 500px;
-  background: linear-gradient(135deg, #777777 0%, #050a23 50%, #777777 100%);
+  background: linear-gradient(135deg, #737373 0%, #939393 50%, #737373 100%);
   border-radius: 15px;
   padding: 20px;
 }
@@ -124,7 +122,7 @@
 .PainelModalAdcProd h2 {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  color: #9e9e9e;
+  color: #000000;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin: 2rem 0;
@@ -155,6 +153,33 @@ p {
 }
 
 /* MODAL DE LISTA DE PRODUTOS */
+.Container_InputListProd {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Container_PagesListProd {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Input_ListProd {
+  border: none;
+  outline: none;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  width: 50%;
+  padding: 1em;
+  text-indent: 23px;
+  background-color: #ccc;
+  box-shadow: inset 2px 5px 10px rgba(0, 0, 0, 0.3);
+  transition: 300ms ease-in-out;
+}
+.Input_ListProd:focus {
+  background-color: white;
+  transform: scale(1.05);
+  box-shadow: 0px 3px 10px #969696, -0px -3px 10px #ffffff;
+}
 .ScreenModalListProd {
   display: flex;
   flex-direction: row;
@@ -165,7 +190,7 @@ p {
 }
 .PainelModalListProd {
   flex: 2;
-  background: linear-gradient(135deg, #777777 0%, #050a23 50%, #777777 100%);
+  background: linear-gradient(135deg, #737373 0%, #939393 50%, #737373 100%);
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
@@ -173,7 +198,7 @@ p {
 .PainelModalListProd h2 {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  color: #9e9e9e;
+  color: #000000;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin: 1.5rem 0;
@@ -188,7 +213,7 @@ p {
 }
 .ThModelListProd {
   border: 1px solid #000000;
-  background: linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%);
+  background: linear-gradient(135deg, #4a4a4ad6 0%, #363636c5 150%);
   width: 1700px;
   color: rgb(255, 255, 255);
   padding: 10px;
@@ -212,7 +237,7 @@ p {
 }
 .ThModelListProd_Edit {
   border: 1px solid #000000;
-  background: linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%);
+  background: linear-gradient(135deg, #4a4a4ad6 0%, #363636c5 150%);
   width: 800x;
   color: rgb(255, 255, 255);
   padding: 10px;
@@ -229,7 +254,7 @@ p {
 .ScreenModalTroco {
   background: linear-gradient(135deg, #777777 0%, #050a23 50%, #777777 100%);
   padding: 20px;
-  color: black;
+  color: #000000;
   border-radius: 15px;
 }
 .PainelModalTroco {
@@ -291,7 +316,7 @@ p {
   margin-bottom: 20px;
   gap: 20px;
   width: 80%;
-  background: #ccc;
+  background: #e4e4e4;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 5px 15px rgba(0, 31, 132, 0.412);
@@ -300,9 +325,9 @@ p {
   flex: 2;
   background: linear-gradient(
     135deg,
-    #08090bbf 0%,
-    #e6e5e5 50%,
-    #08090ba0 100%
+    #8f8f8fbf 0%,
+    #bfbfbf 50%,
+    #8f8f8fbf 100%
   );
   padding: 10px;
   border-radius: 8px;
@@ -335,7 +360,7 @@ p {
   border-bottom: 1px solid #ddd;
   padding: 8px;
   text-align: left;
-  color: rgb(165, 171, 255);
+  color: rgb(0, 17, 255);
   border: 1px solid #000;
   font-weight: bold;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
@@ -361,14 +386,14 @@ p {
   transition: transform 0.5s;
 }
 .Btn_Delete:hover {
-  background-color: #ffb1b1;
+  background-color: #ffdddd6e;
   transform: translateY(0.1em);
 }
 .TotalMerc {
   position: fixed;
   bottom: 3%;
   right: 80%;
-  background: linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%);
+  background: linear-gradient(135deg, #2b3e9a 0%, #344dcc 50%, #2b3e9a 100%);
   color: white;
   padding: 15px 25px;
   border-radius: 25px;
@@ -416,11 +441,11 @@ p {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 .InputMercProd {
-  width: 100%;
-  padding: 2px;
-  border: 1px solid #333333;
-  border-radius: 6px;
+  width: 99%;
+  padding: 4.2px;
+  border-radius: 5px;
+  background-color: white;
   font-size: 16px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }

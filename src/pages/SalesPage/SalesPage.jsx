@@ -6,6 +6,7 @@ import api from "../../services/api";
 import { useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DescriptionIcon from "@mui/icons-material/Description";
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
 import * as XLSX from "xlsx";
 
 import {
@@ -16,6 +17,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  IconButton,
   Typography,
   CircularProgress,
   Tooltip,
@@ -27,6 +29,9 @@ export default function SalesPage() {
   const [loading, setLoading] = useState(true);
   const [globalFilter, setGlobalFilter] = useState("");
   const navigation = useNavigate();
+
+  // FUNÇÃO DE DROPDOWN
+  const [expandedSales, setExpandedSales] = useState({});
 
   // CRIAR PÁGINAÇÃO & FILTRO
   const [page, setPage] = useState(0);
@@ -118,6 +123,14 @@ export default function SalesPage() {
     fetchSales();
   }, []);
 
+  // DROPDOWN
+  const handleExpandToggle = (saleId) => {
+    setExpandedSales((prevExpanded) => ({
+      ...prevExpanded,
+      [saleId]: !prevExpanded[saleId],
+    }));
+  };
+
   return (
     // CONTAINER DA PAGINA
     <div className="ContainerSales">
@@ -159,7 +172,7 @@ export default function SalesPage() {
             },
           }}
         >
-          <button className="Btn_Sales" onClick={gerarExcel}>
+          <button className="Btns_Headers" onClick={gerarExcel}>
             <DescriptionIcon
               sx={{ fontSize: "30px", justifyItems: "center" }}
             />
@@ -179,7 +192,7 @@ export default function SalesPage() {
           }}
         >
           <button
-            className="Btn_Sales"
+            className="Btns_Headers"
             onClick={() => navigation("/caixamercadinho")}
           >
             <ArrowBackIcon sx={{ fontSize: "30px", justifyItems: "center" }} />
@@ -219,7 +232,7 @@ export default function SalesPage() {
                 <TableRow
                   sx={{
                     background:
-                      "linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%)",
+                      "linear-gradient(135deg,rgb(95, 95, 95) 20%,rgb(95, 95, 95) 50%,rgb(95, 95, 95) 100%)",
                     boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2);",
                   }}
                 >
@@ -244,37 +257,82 @@ export default function SalesPage() {
                   <TableCell sx={{ color: "white", fontWeight: "bold" }}>
                     Valor Total
                   </TableCell>
+                  <TableCell
+                    sx={{
+                      width: "50px",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Items
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {salesPaginated.map((sale, index) => (
                   <React.Fragment key={sale.id}>
-                    {sale.salesProducts.map((item, subIndex) => (
-                      <TableRow
-                        key={`<span class="math-inline">{sale.id}-<span>{subIndex}`}
-                        sx={{
-                          backgroundColor:
-                            index % 2 === 0 ? "#cfcfcf" : "white",
-                        }}
-                      >
-                        <TableCell>{sale.id}</TableCell>
-                        <TableCell>{sale.user.name}</TableCell>
-                        <TableCell>{sale.payment.name}</TableCell>
-                        <TableCell>
-                          {new Date(sale.date_sale).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell>{item.product.name}</TableCell>
-                        <TableCell>{item.quantity}</TableCell>
-                        {subIndex === 0 && (
-                          <TableCell rowSpan={sale.salesProducts.length}>
-                            {calcularValorTotal(sale).toLocaleString("pt-BR", {
-                              style: "currency",
-                              currency: "BRL",
-                            })}
+                    {sale.salesProducts.map((item, subIndex) => {
+                      const isFirstItem = subIndex === 0;
+
+                      if (!expandedSales[sale.id] && !isFirstItem) {
+                        return null; // Oculta itens não expandidos
+                      }
+
+                      return (
+                        <TableRow
+                          key={`${sale.id}-${subIndex}`}
+                          sx={{
+                            backgroundColor:
+                              index % 2 === 0 ? "#f1f1f1" : "white",
+                          }}
+                        >
+                          <TableCell>{sale.id}</TableCell>
+                          <TableCell>{sale.user.name}</TableCell>
+                          <TableCell>{sale.payment.name}</TableCell>
+                          <TableCell>
+                            {new Date(sale.date_sale).toLocaleDateString()}
                           </TableCell>
-                        )}
-                      </TableRow>
-                    ))}
+                          <TableCell>{item.product.name}</TableCell>
+                          <TableCell>{item.quantity}</TableCell>
+                          {isFirstItem && (
+                            <TableCell
+                              rowSpan={
+                                expandedSales[sale.id]
+                                  ? sale.salesProducts.length
+                                  : 1
+                              }
+                            >
+                              {calcularValorTotal(sale).toLocaleString(
+                                "pt-BR",
+                                {
+                                  style: "currency",
+                                  currency: "BRL",
+                                }
+                              )}
+                            </TableCell>
+                          )}
+                          {isFirstItem && (
+                            <TableCell
+                              rowSpan={
+                                expandedSales[sale.id]
+                                  ? sale.salesProducts.length
+                                  : 1
+                              }
+                            >
+                              <IconButton
+                                onClick={() => handleExpandToggle(sale.id)}
+                              >
+                                {expandedSales[sale.id] ? (
+                                  <ExpandLess />
+                                ) : (
+                                  <ExpandMore />
+                                )}
+                              </IconButton>
+                            </TableCell>
+                          )}
+                        </TableRow>
+                      );
+                    })}
                   </React.Fragment>
                 ))}
               </TableBody>
@@ -293,7 +351,7 @@ export default function SalesPage() {
           sx={{
             marginBottom: "15px",
             background:
-              "linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%)",
+              "linear-gradient(135deg,rgb(66, 66, 66) 0%,rgb(48, 48, 48) 50%,rgb(66, 66, 66) 100%)",
             color: "white",
             borderRadius: "0 0 12px 12px",
             "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":

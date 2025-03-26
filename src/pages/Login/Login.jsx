@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import logo from "../../assets/logo.png";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import CircularProgress from "@mui/material/CircularProgress";
+import "../../componentcss/components.css";
 import "./Login.css";
 
 import { Mail, Lock } from "lucide-react";
@@ -106,7 +107,11 @@ export default function Login() {
             {showPassword ? <FaEyeSlash /> : <FaEye />}
           </span>
         </div>
-        <button className="Btn" onClick={handleLogin} disabled={isLoading}>
+        <button
+          className="Btn_Login"
+          onClick={handleLogin}
+          disabled={isLoading}
+        >
           {isLoading ? (
             <CircularProgress size={24} color="inherit" />
           ) : (

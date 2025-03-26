@@ -3,9 +3,10 @@ import { useNavigate } from "react-router";
 import logo from "../../assets/logo.png";
 import { jwtDecode } from "jwt-decode";
 import api from "../../services/api";
+import "../../componentcss/components.css";
 import "./CaixaMercadinho.css";
 
-import { Modal, Box, Button, Tooltip } from "@mui/material";
+import { Modal, Box, Button, Tooltip, TablePagination } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -34,6 +35,10 @@ export default function CaixaMercadinho() {
   // EDITAR PRODUTOS
   const [modoEdicao, setModoEdicao] = useState(false);
   const [idEditando, setIdEditando] = useState(null);
+  // PESQUISAR E PAGINAÇÃO DE PRODUTOS
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [searchQuery, setSearchQuery] = useState("");
   // LISTA DE COMPRAS POR UUID
   const [produtosCompra, setProdutosCompra] = useState([]);
   const [uuidSelecionado, setUuidSelecionado] = useState("");
@@ -169,6 +174,25 @@ export default function CaixaMercadinho() {
   useEffect(() => {
     buscarProdutos();
   }, []);
+
+  // PESQUISAR PRODUTOS E PAGINAÇÃO
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const filteredProdutos = produtosLista.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const paginatedProdutos = filteredProdutos.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   // MODAL TROCO
   const handleOpenTrocoModal = () => {
@@ -430,7 +454,7 @@ export default function CaixaMercadinho() {
               },
             }}
           >
-            <button className="Btn_Sales" onClick={handleOpenTrocoModal}>
+            <button className="Btns_Headers" onClick={handleOpenTrocoModal}>
               <CalculateIcon
                 sx={{
                   color: "black",
@@ -522,7 +546,10 @@ export default function CaixaMercadinho() {
               },
             }}
           >
-            <button className="Btn_Sales" onClick={() => navigation("/sales")}>
+            <button
+              className="Btns_Headers"
+              onClick={() => navigation("/sales")}
+            >
               <ReceiptIcon sx={{ fontSize: "30px", justifyItems: "center" }} />
             </button>
           </Tooltip>
@@ -583,6 +610,15 @@ export default function CaixaMercadinho() {
             <div className="ScreenModalListProd">
               <div className="PainelModalListProd">
                 <h2>PRODUTOS</h2>
+                <div className="Container_InputListProd">
+                  <input
+                    className="Input_ListProd"
+                    type="email"
+                    placeholder="Pesquisar produtos..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
                 <table className="TableModalListProd">
                   <thead>
                     <tr className="Tr">
@@ -595,7 +631,7 @@ export default function CaixaMercadinho() {
                     </tr>
                   </thead>
                   <tbody>
-                    {produtosLista.map((item, index) => (
+                    {paginatedProdutos.map((item, index) => (
                       <tr className="Tr" key={index}>
                         <td className="TdCModelListProd">{item.uuid}</td>
                         <td className="TdModelListProd">{item.name}</td>
@@ -612,10 +648,10 @@ export default function CaixaMercadinho() {
                           componentsProps={{
                             tooltip: {
                               sx: {
-                                fontSize: "1rem", // aumenta a fonte
-                                backgroundColor: "#333", // opcional
-                                color: "#fff", // opcional
-                                padding: "8px 12px", // mais espaço
+                                fontSize: "1rem",
+                                backgroundColor: "#333",
+                                color: "#fff",
+                                padding: "8px 12px",
                               },
                             },
                           }}
@@ -656,6 +692,39 @@ export default function CaixaMercadinho() {
                     ))}
                   </tbody>
                 </table>
+                <div className="Container_PagesListProd">
+                  <TablePagination
+                    component="div"
+                    count={filteredProdutos.length}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    rowsPerPageOptions={[5, 10, 15]}
+                    labelRowsPerPage="Linhas por página"
+                    sx={{
+                      marginTop: "15px",
+                      marginBottom: "2px",
+                      background:
+                        "linear-gradient(135deg,rgb(66, 66, 66) 0%,rgb(48, 48, 48) 50%,rgb(66, 66, 66) 100%)",
+                      color: "white",
+                      borderRadius: "0 0 12px 12px",
+                      "& .MuiTablePagination-selectLabel, & .MuiTablePagination-displayedRows":
+                        {
+                          color: "white",
+                        },
+                      "& .MuiInputBase-root": {
+                        color: "white",
+                      },
+                      "& .MuiSvgIcon-root": {
+                        color: "white",
+                      },
+                      "& .MuiTablePagination-actions button": {
+                        color: "white",
+                      },
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </Box>
@@ -693,7 +762,7 @@ export default function CaixaMercadinho() {
                       >
                         <DeleteIcon
                           sx={{
-                            color: "red",
+                            color: "#c04545",
                             fontSize: "30px",
                             justifyItems: "center",
                           }}
@@ -736,10 +805,23 @@ export default function CaixaMercadinho() {
               setNameSelecionado(newValue);
               buscarProdutoPorName(newValue);
             }}
-            renderInput={(params) => <TextField {...params} label="Produto" />}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Produto"
+                sx={{ background: "white" }}
+              />
+            )}
             sx={{
               "& .MuiOutlinedInput-root": {
                 height: "48px",
+                background: "white",
+              },
+            }}
+            ListboxProps={{
+              style: {
+                maxHeight: "170px", // 5 itens * altura aproximada de 50px
+                overflow: "auto",
               },
             }}
             className="InputMercProd"

@@ -11,7 +11,7 @@ body {
 
 .ContainerSales {
   min-height: 100vh; /* Faz com que o fundo ocupe a altura total da tela */
-  background: linear-gradient(135deg, #08090b 0%, #e6e5e5 50%, #08090b 100%);
+  background: linear-gradient(135deg, #45474a 0%, #e6e5e5 50%, #45474a 110%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -54,7 +54,7 @@ body {
   height: 200px;
 }
 
-.Btn_Back {
+.Btns_Headers {
   background: #ffffff;
   width: 68px;
   height: 48px;
@@ -63,7 +63,7 @@ body {
   cursor: pointer;
   transition: transform 0.5s;
 }
-.Btn_Back:hover {
+.Btns_Headers:hover {
   background-color: #bebebe;
   transform: translateY(0.4em);
 }
