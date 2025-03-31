@@ -42,17 +42,16 @@ export default function Login() {
       const user = jwtDecode(token);
       console.log("Usuário logado:", user);
 
-      // Faz a requisição para buscar os dados do usuário autenticado
-      const userResponse = await api.get("/users", {
-        headers: {
-          Authorization: `Bearer ${token}`, // Garantir que o token é enviado
-        },
-      });
-
-      console.log("Dados do usuário autenticado:", userResponse.data);
-
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay de 1s
-      navigate("/caixamercadinho"); // Redireciona após login
+
+      // Lógica de redirecionamento baseada no ID e papel do usuário
+      if (user.sub === 1) {
+        navigate("/companymanagement");
+      } else if (user.role === "admin") {
+        navigate("/usermanagement");
+      } else {
+        navigate("/caixamercadinho");
+      }
     } catch (err) {
       console.error("Erro no login:", err.response?.data || err.message);
 
