@@ -50,7 +50,7 @@ export default function CaixaMercadinho() {
   const [openTrocoModal, setOpenTrocoModal] = useState(false); // Controle de abertura do modal
   // FORMAS DE PAGAMENTO
   const [formasPagamento, setFormasPagamento] = useState([]);
-  const [formaPagamento, setFormaPagamento] = useState(null);
+  const [formaPagamento, setFormaPagamento] = useState("");
   // TOTAL DA COMPRA
   const [total, setTotal] = useState(0);
   const [quantidade, setQuantidade] = useState(1);
@@ -393,9 +393,9 @@ export default function CaixaMercadinho() {
       <div className="ScrollContainer">
         <Box className={`CardBox ${caixaAberto ? "Box_Open" : "Box_Close"}`}>
           {caixaAberto ? (
-            <text className="TextBox">CAIXA ABERTO</text>
+            <h1 className="TextBox">CAIXA ABERTO</h1>
           ) : (
-            <text className="TextBox">CAIXA FECHADO</text>
+            <h1 className="TextBox">CAIXA FECHADO</h1>
           )}
         </Box>
         <Button

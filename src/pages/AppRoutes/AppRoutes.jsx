@@ -20,7 +20,7 @@ function ProtectedRoute({ children, role }) {
     if (!user) {
       navigate("/", { replace: true }); // Redireciona para o login se não estiver autenticado
     } else if (role && user.role !== role) {
-      navigate("/access-denied", { replace: true }); // Redireciona para página de acesso negado
+      navigate("/", { replace: true }); // Redireciona para página de acesso negado
     }
   }, [user, role, navigate]);
 
