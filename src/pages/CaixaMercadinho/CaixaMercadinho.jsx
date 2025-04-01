@@ -1,11 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router";
-import logo from "../../assets/logo.png";
-import { jwtDecode } from "jwt-decode";
-import api from "../../services/api";
-import "../../componentcss/components.css";
-import "./CaixaMercadinho.css";
-
+// MATERIAL UI
 import { Modal, Box, Button, Tooltip, TablePagination } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
@@ -14,9 +7,17 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
+// ESTADOS E MANIPULAÇÃO
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router";
+import { jwtDecode } from "jwt-decode";
+import api from "../../services/api";
+// LOGOS E COMPONENTS.CSS
+import logo from "../../assets/logo.png";
 import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
+import "../../componentcss/components.css";
+import "./CaixaMercadinho.css";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function CaixaMercadinho() {
@@ -25,11 +26,11 @@ export default function CaixaMercadinho() {
   const [caixaAberto, setCaixaAberto] = useState(false);
   // ADICIONAR PRODUTOS
   const [produto, setProduto] = useState("");
-  const [produtoDuplicado, setProdutoDuplicado] = useState(false);
   const [codigo, setCodigo] = useState("");
   const [valor, setValor] = useState("");
   const [descricao, setDescricao] = useState("");
   const [adcProdOpen, setAdcProdOpen] = useState(false);
+  const [produtoDuplicado, setProdutoDuplicado] = useState(false);
   const [produtosLista, setProdutosLista] = useState([]);
   const [listProdOpen, setListProdOpen] = useState(false);
   // EDITAR PRODUTOS
@@ -78,6 +79,10 @@ export default function CaixaMercadinho() {
     setAdcProdOpen(true); // Abre o modal de edição
   };
   const adicionarProduto = async () => {
+    const token = localStorage.getItem("token");
+    const user = jwtDecode(token);
+    const companyId = user.companyId;
+
     if (codigo && produto && valor) {
       setIsLoading(true);
 
@@ -114,6 +119,7 @@ export default function CaixaMercadinho() {
             name: produto,
             description: descricao,
             value: parseFloat(valor),
+            companyId: companyId,
           });
 
           setProdutosLista([...produtosLista, response.data]);
@@ -128,6 +134,14 @@ export default function CaixaMercadinho() {
             theme: "dark",
           });
         }
+
+        console.log("Enviando produto:", {
+          uuid: codigo,
+          name: produto,
+          description: descricao,
+          value: parseFloat(valor),
+          companyId: companyId,
+        });
 
         // Limpa o formulário
         setCodigo("");
@@ -343,6 +357,7 @@ export default function CaixaMercadinho() {
       const token = localStorage.getItem("token");
       const user = jwtDecode(token);
       const user_id = user.sub;
+      const companyId = user.companyId;
 
       const venda = {
         userId: user_id,
@@ -351,6 +366,7 @@ export default function CaixaMercadinho() {
           uuid: produto.uuid,
           quantity: produto.quantidade,
           value: parseFloat(produto.value),
+          companyId: companyId,
         })),
       };
 
@@ -360,6 +376,12 @@ export default function CaixaMercadinho() {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+      });
+
+      console.log("Enviando produto:", {
+        userId: user_id,
+        paymentId: formaPagamento,
+        companyId: companyId,
       });
 
       toast.success("🛒 Venda finalizada com sucesso!", {
