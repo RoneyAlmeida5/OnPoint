@@ -18,9 +18,9 @@ function ProtectedRoute({ children, role }) {
 
   useEffect(() => {
     if (!user) {
-      navigate("/", { replace: true }); // Redireciona para o login se não estiver autenticado
+      navigate("/Login", { replace: true }); // Redireciona para o login se não estiver autenticado
     } else if (role && user.role !== role) {
-      navigate("/", { replace: true }); // Redireciona para página de acesso negado
+      navigate("/Login", { replace: true }); // Redireciona para página de acesso negado
     }
   }, [user, role, navigate]);
 
@@ -32,7 +32,7 @@ const AppRoutes = () => {
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/Login" element={<Login />} />
           <Route
             path="/companymanagement"
             element={

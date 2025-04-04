@@ -3,7 +3,16 @@
   font-size: 14px;
   color: #333;
 }
-
+.add-company-bt {
+  display: flex;
+  align-items: flex-end; /* Alinha os elementos à direita */
+  justify-content: flex-start; /* Alinha os elementos no topo */
+  width: 81%;
+  white-space: nowrap;
+  padding: 3px;
+  gap: 10px;
+  margin-bottom: 10px;
+}
 .company-management-container {
   margin: 20px;
   padding: 20px;
@@ -33,16 +42,122 @@ h2.text {
   background-color: #ddd;
 }
 
-.action-btn {
-  padding: 5px 10px;
-  margin: 5px;
-  background-color: #007bff;
-  color: white;
+/*BOTÕES*/
+.Btn_Action {
+  margin: 2px;
+  padding: 5px;
+  font-size: 16px;
+  width: 15vh;
+  margin-top: 6px;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(135deg, #2b3e9a 0%, #344dcc 50%, #2b3e9a 100%);
   border: none;
-  border-radius: 4px;
+  border-radius: 20px;
+  transition: all 0.3s ease-in-out;
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
 }
 
-.action-btn:hover {
-  background-color: #0056b3;
+.Btn_Action:hover {
+  background-color: #111111;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.Btn_Action:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 60, 199, 0.875);
+}
+
+.Btn_Action:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.Btn_Action:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.Btn_Action::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+.Btn_Action:hover::before {
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+}
+
+/*BOTÃO DELETE*/
+.Btn_Action_Delete {
+  margin: 2px;
+  padding: 5px;
+  font-size: 16px;
+  width: 15vh;
+  margin-top: 6px;
+  font-weight: bold;
+  color: #ffffff;
+  background: linear-gradient(135deg, #c73737 0%, #f75050 50%, #ff6767 100%);
+  border: none;
+  border-radius: 20px;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.Btn_Action_Delete:hover {
+  background-color: #111111;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.Btn_Action_Delete:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 60, 199, 0.875);
+}
+
+.Btn_Action_Delete:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.Btn_Action_Delete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.Btn_Action_Delete::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+.Btn_Action_Delete:hover::before {
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
 }
