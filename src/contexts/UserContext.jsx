@@ -7,10 +7,16 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodedUser = jwtDecode(token);
-      setUser(decodedUser);
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decodedUser = jwtDecode(token);
+        setUser({ ...decodedUser, token }); // 👈 Inclui o token no contexto
+      }
+    } catch (error) {
+      console.error("Erro ao decodificar token:", error);
+      localStorage.removeItem("token");
+      setUser(null);
     }
   }, []);
 

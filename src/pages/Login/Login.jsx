@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useUser } from "../../contexts/UserContext";
 import api from "../../services/api";
 import { jwtDecode } from "jwt-decode";
 import logo from "../../assets/logo.png";
@@ -15,58 +16,42 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { setUser } = useUser(); // Pegue a função para atualizar o usuário
 
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(""); // Limpa mensagens de erro anteriores
-    setIsLoading(true); // Ativa o loading
+    setIsLoading(true);
+    setError("");
 
     try {
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
-
+      const response = await api.post("/auth/login", { email, password });
       const token = response.data.access_token;
 
-      if (!token) {
-        throw new Error("access_token não recebido!");
-      }
+      if (!token) throw new Error("access_token não recebido!");
 
-      // Salva o token no localStorage
       localStorage.setItem("token", token);
-
-      // Decodifica o token para obter informações do usuário
       const user = jwtDecode(token);
       console.log("Usuário logado:", user);
 
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Delay de 1s
+      // 🔥 ATUALIZA O CONTEXTO PARA REFLETIR A MUDANÇA IMEDIATAMENTE
+      setUser(user);
 
-      // Lógica de redirecionamento baseada no ID e papel do usuário
-      if (user.sub === 1) {
-        navigate("/companymanagement");
-      } else if (user.role === "admin") {
-        navigate("/usermanagement");
-      } else {
-        navigate("/caixamercadinho");
-      }
+      setTimeout(() => {
+        if (user.sub === 1) {
+          navigate("/companymanagement");
+        } else if (user.role === "admin") {
+          navigate("/usermanagement");
+        } else {
+          navigate("/caixamercadinho");
+        }
+      }, 200);
     } catch (err) {
       console.error("Erro no login:", err.response?.data || err.message);
-
-      if (err.response && err.response.data && err.response.data.message) {
-        // Verifica se a mensagem de erro do backend é específica para senha incorreta
-        if (err.response.data.message === "Credenciais inválidas") {
-          setError("Senha incorreta. Tente novamente.");
-        } else {
-          setError(err.response.data.message); // Exibe a mensagem de erro do backend
-        }
-      } else {
-        setError("Erro ao fazer login. Tente novamente."); // Exibe mensagem de erro genérica
-      }
+      setError("Erro ao fazer login. Tente novamente.");
     } finally {
-      setIsLoading(false); // Desativa o loading
+      setIsLoading(false);
     }
   };
 

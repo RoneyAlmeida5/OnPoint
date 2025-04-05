@@ -16,13 +16,13 @@ function ProtectedRoute({ children, role }) {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/Login", { replace: true }); // Redireciona para o login se não estiver autenticado
-    } else if (role && user.role !== role) {
-      navigate("/Login", { replace: true }); // Redireciona para página de acesso negado
-    }
-  }, [user, role, navigate]);
+  if (!user) {
+    return navigate("/Login", { replace: true });
+  }
+
+  if (role && user.role !== role) {
+    return navigate("/Login", { replace: true });
+  }
 
   return children;
 }

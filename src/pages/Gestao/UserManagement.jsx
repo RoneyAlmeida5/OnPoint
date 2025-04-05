@@ -20,83 +20,118 @@ const CompanyManagement = () => {
     navigate("/Login");
   };
   // COMPANY
-  const [nameCompany, setNameCompany] = useState("");
-  const [cnpj, setCnpj] = useState("");
-  const [companies, setCompanies] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [nameUsers, setNameUsers] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [companyId, setCompanyId] = useState("");
+  const [role, setRole] = useState("user");
   // MODAL
-  const [adcCompanyOpen, setAdcCompanyOpen] = useState(false);
+  const [adcUserOpen, setAdcUserOpen] = useState(false);
   // LOADING E ERROR
   const [loading, setLoading] = useState(true);
+  const [addingUser, setAddingUser] = useState(false);
   const [error, setError] = useState(null);
 
   // MODAL ADC COMPANY
-  const handleOpenAdcCompany = () => setAdcCompanyOpen(true);
-  const handleCloseAdcCompany = () => setAdcCompanyOpen(false);
+  const handleOpenAdcUser = () => setAdcUserOpen(true);
+  const handleCloseAdcUser = () => setAdcUserOpen(false);
 
   useEffect(() => {
-    const fetchCompanies = async () => {
+    if (!user || !user.token) {
+      return;
+    }
+
+    const fetchUsersByCompany = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await api.get("/companies", {
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
+        const response = await api.get("/companies/my-users", {
+          headers: { Authorization: `Bearer ${user.token}` },
         });
-        setCompanies(response.data);
+
+        console.log("Dados recebidos da API:", response.data);
+
+        if (Array.isArray(response.data)) {
+          setUsers(response.data);
+        } else if (Array.isArray(response.data.users)) {
+          setUsers(response.data.users);
+        } else {
+          console.warn("Formato inesperado:", response.data);
+          setUsers([]);
+        }
+
+        console.log("Estado atualizado:", users);
       } catch (err) {
-        setError(err);
+        console.error("Erro na API:", err);
+        setError("Erro ao buscar colaboradores.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCompanies();
-  }, [user?.token]);
+    fetchUsersByCompany();
+  }, [user]);
 
   // ADICIONAR COMPANY
-  const adicionarCompany = async () => {
-    setLoading(true);
+  const adicionarUsers = async () => {
+    setAddingUser(true);
 
-    const response = await api.post("/companies", {
-      name: nameCompany,
-      cnpj: cnpj,
-    });
+    try {
+      const response = await api.post(
+        "/users",
+        {
+          name: nameUsers,
+          cpf: cpf,
+          email: email,
+          password: password,
+          role: "user",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.token}`,
+          },
+        }
+      );
 
-    setCompanies([...companies, response.data]);
-
-    toast.success("Empresa adicionada com sucesso!");
-    setLoading(false);
-    setNameCompany("");
-    setCnpj("");
-    setAdcCompanyOpen(false);
+      setUsers([...users, response.data]);
+      toast.success("Usuário adicionado com sucesso!");
+      setAdcUserOpen(false);
+      setNameUsers("");
+      setCpf("");
+      setEmail("");
+      setPassword("");
+      setRole("");
+    } catch (error) {
+      toast.error("Erro ao adicionar usuário!");
+    } finally {
+      setAddingUser(false);
+    }
   };
 
-  // FUNÇÃO PARA DELETAR COMPANY
-  const removerCompany = async (idCompany) => {
+  // FUNÇÃO PARA DELETAR USUARIOS
+  const removerUser = async (idUsers) => {
     try {
-      await api.delete(`/companies/${idCompany}`, {
+      await api.delete(`/users/${idUsers}`, {
         headers: {
           Authorization: `Bearer ${user?.token}`,
         },
       });
 
-      setCompanies(companies.filter((company) => company.id !== idCompany));
+      setUsers(users.filter((user) => user.id !== idUsers));
       toast.success("Empresa removida com sucesso!");
     } catch (error) {
       toast.error("Erro ao remover empresa!");
     }
   };
 
-  if (loading) return <div className="text">Carregando...</div>;
-  if (error) return <div className="text">{error}</div>;
-
   return (
     <div className="company-management-container">
       {/* BOTÃO PARA ABRIR MODAL */}
       <div className="ScrollContainerSales">
         <Tooltip
-          title="Adicionar Empresa"
+          title="Adicionar Colaborador"
           arrow
           componentsProps={{
             tooltip: {
@@ -108,7 +143,7 @@ const CompanyManagement = () => {
             },
           }}
         >
-          <button className="Btns_Headers" onClick={handleOpenAdcCompany}>
+          <button className="Btns_Headers" onClick={handleOpenAdcUser}>
             <AddCircleIcon sx={{ fontSize: "30px", justifyItems: "center" }} />
           </button>
         </Tooltip>
@@ -130,29 +165,47 @@ const CompanyManagement = () => {
           </button>
         </Tooltip>
       </div>
-      <Modal open={adcCompanyOpen} onClose={handleCloseAdcCompany}>
+      <Modal open={adcUserOpen} onClose={handleCloseAdcUser}>
         <Box className="Box">
           <div className="ScreenModalAdcProd">
             <div className="PainelModalAdcProd">
-              <h2>ADICIONAR COMPANY</h2>
+              <h2>ADICIONAR COLABORADOR</h2>
               <input
                 className="InputModalAdcProd"
-                placeholder="Nome da Empresa"
-                value={nameCompany}
-                onChange={(e) => setNameCompany(e.target.value)}
+                placeholder="Nome do Colaborador"
+                value={nameUsers}
+                onChange={(e) => setNameUsers(e.target.value)}
               />
               <input
                 className="InputModalAdcProd"
-                placeholder="Cnpj"
-                value={cnpj}
-                onChange={(e) => setCnpj(e.target.value)}
+                placeholder="Cpf"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+              />
+              <input
+                className="InputModalAdcProd"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                className="InputModalAdcProd"
+                placeholder="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <input
+                className="InputModalAdcProd"
+                placeholder="Company da empresa"
+                value={companyId}
+                disabled
               />
               <button
                 className="Btn"
-                onClick={adicionarCompany}
-                disabled={loading}
+                onClick={adicionarUsers}
+                disabled={addingUser}
               >
-                {loading ? (
+                {addingUser ? (
                   <CircularProgress size={24} color="inherit" />
                 ) : (
                   "Adicionar"
@@ -163,29 +216,29 @@ const CompanyManagement = () => {
         </Box>
       </Modal>
       {/* CONTAINER TABELA EMPRESAS */}
-      <h2 className="text">Gestão de Empresas</h2>
+      <h2 className="text">Gestão de Colaboradores</h2>
       <table className="company-table">
         <thead>
           <tr>
-            <th className="text">ID</th>
             <th className="text">Nome</th>
-            <th className="text">CNPJ</th>
+            <th className="text">Cpf</th>
+            <th className="text">Email</th>
             <th className="text">Ações</th>
           </tr>
         </thead>
         <tbody>
-          {companies.length > 0 ? (
-            companies.map((company) => (
-              <tr key={company.id}>
-                <td className="text">{company.id}</td>
-                <td className="text">{company.name}</td>
-                <td className="text">{company.cnpj}</td>
+          {users.length > 0 ? (
+            users.map((user) => (
+              <tr key={user.id}>
+                <td className="text">{user.name}</td>
+                <td className="text">{user.cpf}</td>
+                <td className="text">{user.email}</td>
                 <td className="text">
                   <button className="Btn_Action">Ver Detalhes</button>
                   <button className="Btn_Action">Editar</button>
                   <button
                     className="Btn_Action_Delete"
-                    onClick={() => removerCompany(company.id)}
+                    onClick={() => removerUser(user.id)}
                   >
                     Excluir
                   </button>
@@ -195,7 +248,7 @@ const CompanyManagement = () => {
           ) : (
             <tr>
               <td colSpan="4" className="text">
-                Nenhuma empresa encontrada.
+                Nenhum colaborador encontrado!.
               </td>
             </tr>
           )}
