@@ -35,8 +35,8 @@ export default function Login() {
       const user = jwtDecode(token);
       console.log("Usuário logado:", user);
 
-      // 🔥 ATUALIZA O CONTEXTO PARA REFLETIR A MUDANÇA IMEDIATAMENTE
-      setUser(user);
+      // 🔥 ATUALIZA O CONTEXTO PARA REFLETIR A MUDANÇA IMEDIATAMENTE (COM O TOKEN)
+      setUser({ ...user, token: token });
 
       setTimeout(() => {
         if (user.sub === 1) {

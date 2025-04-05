@@ -6,63 +6,49 @@ import CompanyManagement from "../Management/CompanyManagement";
 import UserManagement from "../Gestao/UserManagement";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import { useEffect } from "react";
-
 import { AuthProvider } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router";
-import { useAuth } from "../../contexts/AuthContext";
-
-function ProtectedRoute({ children, role }) {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-
-  if (!user) {
-    return navigate("/Login", { replace: true });
-  }
-
-  if (role && user.role !== role) {
-    return navigate("/Login", { replace: true });
-  }
-
-  return children;
-}
+import PrivateRoute from "../../componentcss/PrivateRoute";
 
 const AppRoutes = () => {
   return (
     <AuthProvider>
       <Router>
         <Routes>
-          <Route path="/Login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
+
           <Route
             path="/companymanagement"
             element={
-              <ProtectedRoute role="admin">
+              <PrivateRoute allowedRoles={["admin"]}>
                 <CompanyManagement />
-              </ProtectedRoute>
+              </PrivateRoute>
             }
           />
+
           <Route
             path="/usermanagement"
             element={
-              <ProtectedRoute role="admin">
+              <PrivateRoute allowedRoles={["admin"]}>
                 <UserManagement />
-              </ProtectedRoute>
+              </PrivateRoute>
             }
           />
+
           <Route
             path="/caixamercadinho"
             element={
-              <ProtectedRoute role="user">
+              <PrivateRoute allowedRoles={["user"]}>
                 <CaixaMercadinho />
-              </ProtectedRoute>
+              </PrivateRoute>
             }
           />
+
           <Route
             path="/sales"
             element={
-              <ProtectedRoute role="user">
+              <PrivateRoute allowedRoles={["user"]}>
                 <SalesPage />
-              </ProtectedRoute>
+              </PrivateRoute>
             }
           />
         </Routes>

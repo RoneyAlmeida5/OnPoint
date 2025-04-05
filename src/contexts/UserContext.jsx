@@ -5,20 +5,22 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const token = localStorage.getItem("token"); // Adiciona o token como variável
 
   useEffect(() => {
     try {
-      const token = localStorage.getItem("token");
       if (token) {
         const decodedUser = jwtDecode(token);
-        setUser({ ...decodedUser, token }); // 👈 Inclui o token no contexto
+        setUser({ ...decodedUser, token });
+      } else {
+        setUser(null);
       }
     } catch (error) {
       console.error("Erro ao decodificar token:", error);
       localStorage.removeItem("token");
       setUser(null);
     }
-  }, []);
+  }, [token]); // Adiciona o token como dependência
 
   const logout = () => {
     localStorage.removeItem("token");

@@ -10,9 +10,11 @@ import api from "../../services/api";
 import { useUser } from "../../contexts/UserContext";
 import { toast } from "react-toastify";
 
-const CompanyManagement = () => {
+const UserManagement = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
+
+  console.log("UserManagement renderizado"); // Adicione este log
 
   // LOGOUT
   const handleLogout = () => {
@@ -31,6 +33,7 @@ const CompanyManagement = () => {
   const [adcUserOpen, setAdcUserOpen] = useState(false);
   // LOADING E ERROR
   const [loading, setLoading] = useState(true);
+  const [isLoadingToken, setIsLoadingToken] = useState(true); // Adicione este estado
   const [addingUser, setAddingUser] = useState(false);
   const [error, setError] = useState(null);
 
@@ -39,7 +42,14 @@ const CompanyManagement = () => {
   const handleCloseAdcUser = () => setAdcUserOpen(false);
 
   useEffect(() => {
+    console.log("useEffect executado");
+
+    if (user && user.token) {
+      setIsLoadingToken(false); // Token disponível, defina isLoadingToken como false
+    }
+
     if (!user || !user.token) {
+      console.log("Token do usuário não disponível");
       return;
     }
 
@@ -71,8 +81,11 @@ const CompanyManagement = () => {
       }
     };
 
-    fetchUsersByCompany();
-  }, [user]);
+    if (!isLoadingToken) {
+      // Faça a requisição apenas se o token estiver disponível
+      fetchUsersByCompany();
+    }
+  }, [user, isLoadingToken]); // Adicione isLoadingToken como dependência
 
   // ADICIONAR COMPANY
   const adicionarUsers = async () => {
@@ -96,7 +109,7 @@ const CompanyManagement = () => {
       );
 
       setUsers([...users, response.data]);
-      toast.success("Usuário adicionado com sucesso!");
+      toast.success("Colaborador adicionado com sucesso!");
       setAdcUserOpen(false);
       setNameUsers("");
       setCpf("");
@@ -120,9 +133,9 @@ const CompanyManagement = () => {
       });
 
       setUsers(users.filter((user) => user.id !== idUsers));
-      toast.success("Empresa removida com sucesso!");
+      toast.success("Colaborador removido com sucesso!");
     } catch (error) {
-      toast.error("Erro ao remover empresa!");
+      toast.error("Erro ao remover o colaborador!");
     }
   };
 
@@ -258,4 +271,4 @@ const CompanyManagement = () => {
   );
 };
 
-export default CompanyManagement;
+export default UserManagement;
