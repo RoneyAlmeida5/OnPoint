@@ -315,15 +315,7 @@ export default function CaixaMercadinho() {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const user = jwtDecode(token);
-        const companyId = user.companyId;
-
-        const response = await api.get(`/payments?companyId=${companyId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await api.get("/payments");
         setFormasPagamento(response.data);
         if (response.data.length > 0) {
           setFormaPagamento(response.data[0].id);
