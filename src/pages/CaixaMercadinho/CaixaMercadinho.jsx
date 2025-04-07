@@ -7,9 +7,11 @@ import ReceiptIcon from "@mui/icons-material/Receipt";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import LogoutIcon from "@mui/icons-material/Logout";
 // ESTADOS E MANIPULAÇÃO
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router";
+import { useUser } from "../../contexts/UserContext";
 import { jwtDecode } from "jwt-decode";
 import api from "../../services/api";
 // LOGOS E COMPONENTS.CSS
@@ -21,6 +23,7 @@ import "./CaixaMercadinho.css";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function CaixaMercadinho() {
+  const { logout } = useUser();
   const navigation = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [caixaAberto, setCaixaAberto] = useState(false);
@@ -55,6 +58,12 @@ export default function CaixaMercadinho() {
   // TOTAL DA COMPRA
   const [total, setTotal] = useState(0);
   const [quantidade, setQuantidade] = useState(1);
+
+  // LOGOUT
+  const handleLogout = () => {
+    logout();
+    navigation("/Login");
+  };
 
   // CAIXA ABERTO OU FECHADO
   useEffect(() => {
@@ -228,13 +237,15 @@ export default function CaixaMercadinho() {
   // FUNÇÃO BUSCAR PRODUTOS NO BACK-END
   const buscarProdutos = async () => {
     try {
-      const token = localStorage.getItem("token"); // Ou outra forma de obter o token
-      const response = await api.get("/products", {
+      const token = localStorage.getItem("token");
+      const user = jwtDecode(token);
+      const companyId = user.companyId;
+
+      const response = await api.get(`/products?companyId=${companyId}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Adiciona o token no cabeçalho
+          Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data); // Verifique os dados aqui
       setProdutosLista(response.data);
     } catch (error) {
       console.error("Erro ao buscar produtos:", error);
@@ -304,7 +315,15 @@ export default function CaixaMercadinho() {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await api.get("/payments");
+        const token = localStorage.getItem("token");
+        const user = jwtDecode(token);
+        const companyId = user.companyId;
+
+        const response = await api.get(`/payments?companyId=${companyId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setFormasPagamento(response.data);
         if (response.data.length > 0) {
           setFormaPagamento(response.data[0].id);
@@ -347,7 +366,7 @@ export default function CaixaMercadinho() {
 
   // FUNÇÃO PARA FINALIZAR VENDA
   const finalizarVenda = async () => {
-    setIsLoading(true); // Ativa o loading
+    setIsLoading(true);
     if (!formaPagamento || produtosCompra.length === 0) {
       alert("Selecione uma forma de pagamento e adicione produtos à compra.");
       return;
@@ -370,23 +389,15 @@ export default function CaixaMercadinho() {
         })),
       };
 
-      await new Promise((resolve) => setTimeout(resolve, 1000));
       await api.post("/sales/createSales", venda, {
-        // Alterar a rota para createSales
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      console.log("Enviando produto:", {
-        userId: user_id,
-        paymentId: formaPagamento,
-        companyId: companyId,
-      });
-
-      toast.success("🛒 Venda finalizada com sucesso!", {
+      toast.success(" Venda finalizada com sucesso!", {
         position: "top-right",
-        autoClose: 4000, // Fecha após 3 segundos
+        autoClose: 4000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -404,7 +415,7 @@ export default function CaixaMercadinho() {
       });
       alert("Erro ao finalizar venda. Tente novamente.");
     } finally {
-      setIsLoading(false); // Desativa o loading
+      setIsLoading(false);
     }
   };
 
@@ -553,7 +564,7 @@ export default function CaixaMercadinho() {
             </div>
           </Modal>
         </div>
-        <div>
+        <div className="SalesAndExit">
           <Tooltip
             title="Vendas"
             arrow
@@ -573,6 +584,24 @@ export default function CaixaMercadinho() {
               onClick={() => navigation("/sales")}
             >
               <ReceiptIcon sx={{ fontSize: "30px", justifyItems: "center" }} />
+            </button>
+          </Tooltip>
+          <Tooltip
+            title="Sair"
+            arrow
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  fontSize: "1rem", // aumenta a fonte
+                  backgroundColor: "#333", // opcional
+                  color: "#fff", // opcional
+                  padding: "8px 12px", // mais espaço
+                },
+              },
+            }}
+          >
+            <button className="Btns_Headers" onClick={handleLogout}>
+              <LogoutIcon sx={{ fontSize: "30px", justifyItems: "center" }} />
             </button>
           </Tooltip>
         </div>

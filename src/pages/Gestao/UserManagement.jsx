@@ -100,6 +100,7 @@ const UserManagement = () => {
           email: email,
           password: password,
           role: "user",
+          companyId: user?.companyId, // <-- adicione aqui
         },
         {
           headers: {

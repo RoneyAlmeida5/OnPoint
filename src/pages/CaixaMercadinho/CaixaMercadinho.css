@@ -85,6 +85,10 @@
   background-color: #bebebe;
   transform: translateY(0.4em);
 }
+.SalesAndExit {
+  display: flex;
+  gap: 10px;
+}
 /* CONTAINER DO MODAL */
 .Box {
   position: absolute;
