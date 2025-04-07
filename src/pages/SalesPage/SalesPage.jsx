@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
 import "./SalesPage.css";
 import logo from "../../assets/logo.png";
 import api from "../../services/api";
@@ -111,8 +112,14 @@ export default function SalesPage() {
   useEffect(() => {
     async function fetchSales() {
       try {
-        const response = await api.get("/sales");
-        setSales(response.data || []); //Garante que sales sempre será um array
+        const token = localStorage.getItem("token");
+        const user = jwtDecode(token);
+        const companyId = user.companyId;
+
+        // Modificação: Adiciona companyId como parâmetro na requisição
+        const response = await api.get(`/sales?companyId=${companyId}`);
+
+        setSales(response.data || []);
       } catch (error) {
         console.error("Erro ao buscar vendas:", error);
       } finally {
