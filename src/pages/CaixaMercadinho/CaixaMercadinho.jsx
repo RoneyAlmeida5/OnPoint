@@ -13,6 +13,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../../contexts/UserContext";
 import { jwtDecode } from "jwt-decode";
+import { v4 as uuidv4 } from "uuid";
 import api from "../../services/api";
 // LOGOS E COMPONENTS.CSS
 import logo from "../../assets/logo.png";
@@ -50,14 +51,14 @@ export default function CaixaMercadinho() {
   const [produtoSelecionado, setProdutoSelecionado] = useState(null);
   // CALCULAR TROCO
   const [valorPago, setValorPago] = useState(0); // Valor pago pelo cliente
-  const [troco, setTroco] = useState(0); // Troco a ser dado
+  const [troco, setTroco] = useState(); // Troco a ser dado
   const [openTrocoModal, setOpenTrocoModal] = useState(false); // Controle de abertura do modal
   // FORMAS DE PAGAMENTO
   const [formasPagamento, setFormasPagamento] = useState([]);
   const [formaPagamento, setFormaPagamento] = useState("");
   // TOTAL DA COMPRA
   const [total, setTotal] = useState(0);
-  const [quantidade, setQuantidade] = useState(1);
+  const [quantidade, setQuantidade] = useState("");
 
   // LOGOUT
   const handleLogout = () => {
@@ -276,11 +277,23 @@ export default function CaixaMercadinho() {
     const novoProdutoCompra = {
       ...produtoSelecionado,
       quantidade: quantidade,
+      cartItemId: uuidv4(),
     };
+
+    console.log("Produto adicionado ao carrinho:", novoProdutoCompra);
 
     setProdutosCompra([...produtosCompra, novoProdutoCompra]);
     setTotal(total + produtoSelecionado.value * quantidade); // Multiplica o valor pela quantidade
     setQuantidade(1);
+  };
+
+  // FUNÇÃO PARA DELETAR PRODUTO DO CARRINHO
+  const removerProdutoDoCarrinho = (cartItemId) => {
+    const produtosAtualizados = produtosCompra.filter(
+      (produto) => produto.cartItemId !== cartItemId
+    );
+    setProdutosCompra(produtosAtualizados);
+    localStorage.setItem("produtosCompra", JSON.stringify(produtosAtualizados));
   };
 
   // FUNÇÃO PARA DELETAR PRODUTO
@@ -300,15 +313,6 @@ export default function CaixaMercadinho() {
     } catch (error) {
       console.error("Erro ao remover produto:", error);
     }
-  };
-
-  // FUNÇÃO PARA DELETAR PRODUTO DO CARRINHO
-  const removerProdutoDoCarrinho = (idProduto) => {
-    const produtosAtualizados = produtosCompra.filter(
-      (produto) => produto.uuid !== idProduto
-    );
-    setProdutosCompra(produtosAtualizados);
-    localStorage.setItem("produtosCompra", JSON.stringify(produtosAtualizados));
   };
 
   // FORMAS DE PAGAMENTOS
@@ -504,58 +508,27 @@ export default function CaixaMercadinho() {
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   />
-                  <Button
-                    sx={{
-                      padding: "10px",
-                      background:
-                        "linear-gradient(135deg, #344dcc 0%, #000000 50%, #344dcc 100%)",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-                      "&:hover": {
-                        backgroundColor: "#00258a",
-                      },
-                    }}
-                    onClick={calcularTroco}
-                  >
+                  <button className="Btn" onClick={calcularTroco}>
                     Calcular Troco
-                  </Button>
+                  </button>
 
                   {troco > 0 && (
                     <h3 style={{ marginTop: "10px" }}>
                       Troco:{" "}
-                      <h1 style={{ color: "#00be43db", marginBottom: "-10px" }}>
+                      <h1 style={{ color: "#00890b", marginBottom: "-10px" }}>
                         R$ {troco.toFixed(2)}
                       </h1>
                     </h3>
                   )}
-
-                  <Button
-                    sx={{
-                      padding: "10px",
-                      background:
-                        "linear-gradient(135deg, #ac0000 0%, #ff5050 50%, #fc8f8f 100%)",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "10px",
-                      cursor: "pointer",
-                      boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-                      marginTop: "10px",
-                      "&:hover": {
-                        backgroundColor: "#c82333",
-                      },
-                    }}
-                    onClick={handleCloseTrocoModal}
-                  >
+                  <button className="Btn_Troco" onClick={handleCloseTrocoModal}>
                     Fechar
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>
           </Modal>
         </div>
+        {/* Exit e Sales */}
         <div className="SalesAndExit">
           <Tooltip
             title="Vendas"
@@ -801,7 +774,13 @@ export default function CaixaMercadinho() {
                     <td className="Td_Delete">
                       <button
                         className="Btn_Delete"
-                        onClick={() => removerProdutoDoCarrinho(item.uuid)}
+                        onClick={() => {
+                          console.log(
+                            "Removendo produto com cartItemId:",
+                            item.cartItemId
+                          );
+                          removerProdutoDoCarrinho(item.cartItemId);
+                        }}
                       >
                         <DeleteIcon
                           sx={{
@@ -839,7 +818,7 @@ export default function CaixaMercadinho() {
             type="number" // Use type="number" para permitir apenas números
             placeholder="Quantidade"
             value={quantidade}
-            onChange={(e) => setQuantidade(parseInt(e.target.value) || 1)} // Garante que a quantidade seja um número inteiro
+            onChange={(e) => setQuantidade(parseInt(e.target.value))} // Garante que a quantidade seja um número inteiro
           />
           <Autocomplete
             options={produtosLista.map((produto) => produto.name)}
