@@ -1,22 +1,25 @@
+// MATERIAL UI
+import CircularProgress from "@mui/material/CircularProgress";
+// STATES / ROUTER E ETC
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useUser } from "../../contexts/UserContext";
+import { Mail, Lock } from "lucide-react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import logo from "../../assets/logo.png";
+// API E TOKEN(JWT)
 import api from "../../services/api";
 import { jwtDecode } from "jwt-decode";
-import logo from "../../assets/logo.png";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import CircularProgress from "@mui/material/CircularProgress";
+// CSS
 import "../../componentcss/components.css";
 import "./Login.css";
-
-import { Mail, Lock } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { setUser } = useUser(); // Pegue a função para atualizar o usuário
+  const { setUser } = useUser();
 
   const navigate = useNavigate();
 
@@ -35,7 +38,6 @@ export default function Login() {
       const user = jwtDecode(token);
       console.log("Usuário logado:", user);
 
-      // 🔥 ATUALIZA O CONTEXTO PARA REFLETIR A MUDANÇA IMEDIATAMENTE (COM O TOKEN)
       setUser({ ...user, token: token });
 
       setTimeout(() => {

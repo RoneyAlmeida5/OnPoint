@@ -9,7 +9,7 @@ export function useAuth() {
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Adiciona estado de carregamento
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -19,11 +19,11 @@ export function AuthProvider({ children }) {
         setUser(decodedUser); // Salva as informações do usuário no contexto
       } catch (error) {
         console.error("Token inválido:", error);
-        localStorage.removeItem("token"); // Remove token inválido
+        localStorage.removeItem("token");
         setUser(null);
       }
     }
-    setIsLoading(false); // Carregamento concluído
+    setIsLoading(false);
   }, []);
 
   const login = (userData) => {
@@ -36,10 +36,10 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("token");
   };
 
-  const value = { user, login, logout, isLoading }; // Inclui isLoading
+  const value = { user, login, logout, isLoading };
 
   if (isLoading) {
-    return <div>Carregando...</div>; // Ou um componente de loading adequado
+    return <div>Carregando...</div>;
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

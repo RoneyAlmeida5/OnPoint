@@ -4,7 +4,7 @@ import CaixaMercadinho from "../CaixaMercadinho/CaixaMercadinho";
 import SalesPage from "../SalesPage/SalesPage";
 import CompanyManagement from "../Management/CompanyManagement";
 import UserManagement from "../Gestao/UserManagement";
-
+// AUTH E ROUTES
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import { AuthProvider } from "../../contexts/AuthContext";
 import PrivateRoute from "../../componentcss/PrivateRoute";

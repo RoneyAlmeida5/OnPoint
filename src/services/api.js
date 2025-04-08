@@ -1,14 +1,12 @@
 import axios from "axios";
 
-// Criar a instância do Axios
 const api = axios.create({
-  baseURL: "http://localhost:3000", // Ajuste conforme necessário
+  baseURL: "http://localhost:3000",
 });
 
-// Interceptor para adicionar o token automaticamente em cada requisição
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token"); // Obtém o token salvo
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

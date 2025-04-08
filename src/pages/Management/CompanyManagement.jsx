@@ -4,13 +4,14 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Tooltip, Modal, Box } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-
+// STATES / ROUTES E ETC
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import api from "../../services/api";
 import { useUser } from "../../contexts/UserContext";
 import { toast } from "react-toastify";
-
+// API
+import api from "../../services/api";
+// CSS
 import "./CompanyManagement.css";
 
 const CompanyManagement = () => {
@@ -40,7 +41,6 @@ const CompanyManagement = () => {
   // LOADING E ERROR
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   // MODAL ADC COMPANY
   const handleOpenAdcCompany = () => setAdcCompanyOpen(true);
   const handleCloseAdcCompany = () => setAdcCompanyOpen(false);
@@ -142,9 +142,9 @@ const CompanyManagement = () => {
           componentsProps={{
             tooltip: {
               sx: {
-                fontSize: "1rem", // aumenta a fonte
-                backgroundColor: "#333", // opcional
-                color: "#fff", // opcional
+                fontSize: "1rem",
+                backgroundColor: "#333",
+                color: "#fff",
               },
             },
           }}
@@ -159,9 +159,9 @@ const CompanyManagement = () => {
           componentsProps={{
             tooltip: {
               sx: {
-                fontSize: "1rem", // aumenta a fonte
-                backgroundColor: "#333", // opcional
-                color: "#fff", // opcional
+                fontSize: "1rem",
+                backgroundColor: "#333",
+                color: "#fff",
               },
             },
           }}
@@ -176,9 +176,9 @@ const CompanyManagement = () => {
           componentsProps={{
             tooltip: {
               sx: {
-                fontSize: "1rem", // aumenta a fonte
-                backgroundColor: "#333", // opcional
-                color: "#fff", // opcional
+                fontSize: "1rem",
+                backgroundColor: "#333",
+                color: "#fff",
               },
             },
           }}
@@ -188,6 +188,7 @@ const CompanyManagement = () => {
           </button>
         </Tooltip>
       </div>
+      {/* MODALS */}
       <Modal open={adcCompanyOpen} onClose={handleCloseAdcCompany}>
         <Box className="Box">
           <div className="ScreenModalAdcProd">

@@ -5,7 +5,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const token = localStorage.getItem("token"); // Adiciona o token como variável
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     try {
@@ -20,7 +20,7 @@ export const UserProvider = ({ children }) => {
       localStorage.removeItem("token");
       setUser(null);
     }
-  }, [token]); // Adiciona o token como dependência
+  }, [token]);
 
   const logout = () => {
     localStorage.removeItem("token");

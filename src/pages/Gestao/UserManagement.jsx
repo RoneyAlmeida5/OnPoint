@@ -3,7 +3,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Tooltip, Modal, Box } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-
+// STATES E ETC
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import api from "../../services/api";
@@ -13,8 +13,6 @@ import { toast } from "react-toastify";
 const UserManagement = () => {
   const { user, logout } = useUser();
   const navigate = useNavigate();
-
-  console.log("UserManagement renderizado"); // Adicione este log
 
   // LOGOUT
   const handleLogout = () => {
@@ -33,10 +31,9 @@ const UserManagement = () => {
   const [adcUserOpen, setAdcUserOpen] = useState(false);
   // LOADING E ERROR
   const [loading, setLoading] = useState(true);
-  const [isLoadingToken, setIsLoadingToken] = useState(true); // Adicione este estado
+  const [isLoadingToken, setIsLoadingToken] = useState(true);
   const [addingUser, setAddingUser] = useState(false);
   const [error, setError] = useState(null);
-
   // MODAL ADC COMPANY
   const handleOpenAdcUser = () => setAdcUserOpen(true);
   const handleCloseAdcUser = () => setAdcUserOpen(false);
@@ -45,7 +42,7 @@ const UserManagement = () => {
     console.log("useEffect executado");
 
     if (user && user.token) {
-      setIsLoadingToken(false); // Token disponível, defina isLoadingToken como false
+      setIsLoadingToken(false);
     }
 
     if (!user || !user.token) {
@@ -82,10 +79,9 @@ const UserManagement = () => {
     };
 
     if (!isLoadingToken) {
-      // Faça a requisição apenas se o token estiver disponível
       fetchUsersByCompany();
     }
-  }, [user, isLoadingToken]); // Adicione isLoadingToken como dependência
+  }, [user, isLoadingToken]);
 
   // ADICIONAR COMPANY
   const adicionarUsers = async () => {
@@ -100,7 +96,7 @@ const UserManagement = () => {
           email: email,
           password: password,
           role: "user",
-          companyId: user?.companyId, // <-- adicione aqui
+          companyId: user?.companyId,
         },
         {
           headers: {
@@ -150,9 +146,9 @@ const UserManagement = () => {
           componentsProps={{
             tooltip: {
               sx: {
-                fontSize: "1rem", // aumenta a fonte
-                backgroundColor: "#333", // opcional
-                color: "#fff", // opcional
+                fontSize: "1rem",
+                backgroundColor: "#333",
+                color: "#fff",
               },
             },
           }}

@@ -68,25 +68,24 @@ export default function CaixaMercadinho() {
 
   // CAIXA ABERTO OU FECHADO
   useEffect(() => {
-    // Atualiza o estado do caixa com base na presença de produtos no carrinho
     setCaixaAberto(produtosCompra.length > 0);
   }, [produtosCompra]);
 
   // MODAL ADICIONAR PRODUTOS & EDITAR PRODUTOS
   const handleOpenAdcProd = () => setAdcProdOpen(true);
   const handleCloseAdcProd = () => {
-    setAdcProdOpen(false); // Fecha o modal
-    setModoEdicao(false); // Reseta o modo de edição
-    setIdEditando(null); // Limpa o produto sendo editado
+    setAdcProdOpen(false); // FECHA O MODAL
+    setModoEdicao(false); // RESETE O MODO DE EDIÇÃO
+    setIdEditando(null); // LIMPA O PRODUTO SENDO EDITADO
   };
   const editarProduto = (produto) => {
-    setIdEditando(produto.id); // Salva o UUID do produto para que possamos atualizar no backend
-    setCodigo(produto.uuid); // Preenche os campos do modal com as informações do produto
+    setIdEditando(produto.id);
+    setCodigo(produto.uuid);
     setProduto(produto.name);
     setDescricao(produto.description);
     setValor(produto.value);
-    setModoEdicao(true); // Altera o estado para o modo de edição
-    setAdcProdOpen(true); // Abre o modal de edição
+    setModoEdicao(true); // ALTERA O ESTADO PARA O MODO DE EDIÇÃO
+    setAdcProdOpen(true);
   };
   const adicionarProduto = async () => {
     const token = localStorage.getItem("token");
@@ -98,7 +97,7 @@ export default function CaixaMercadinho() {
 
       try {
         if (modoEdicao && idEditando) {
-          // Edição
+          // EDIÇÃO
           const response = await api.put(`/products/${idEditando}`, {
             uuid: codigo,
             name: produto,
@@ -123,7 +122,7 @@ export default function CaixaMercadinho() {
             theme: "dark",
           });
         } else {
-          // Adição
+          // ADIÇÃO
           const response = await api.post("/products", {
             uuid: codigo,
             name: produto,
@@ -153,7 +152,7 @@ export default function CaixaMercadinho() {
           companyId: companyId,
         });
 
-        // Limpa o formulário
+        // LIMPA O FORMULARIO
         setCodigo("");
         setProduto("");
         setValor("");
@@ -223,7 +222,7 @@ export default function CaixaMercadinho() {
     setOpenTrocoModal(true);
   };
   const handleCloseTrocoModal = () => {
-    setTroco(0); // Zera o valor do troco ao fechar o modal
+    setTroco(0);
     setOpenTrocoModal(false);
   };
   const calcularTroco = () => {
@@ -283,7 +282,7 @@ export default function CaixaMercadinho() {
     console.log("Produto adicionado ao carrinho:", novoProdutoCompra);
 
     setProdutosCompra([...produtosCompra, novoProdutoCompra]);
-    setTotal(total + produtoSelecionado.value * quantidade); // Multiplica o valor pela quantidade
+    setTotal(total + produtoSelecionado.value * quantidade);
     setQuantidade(1);
   };
 
@@ -299,7 +298,7 @@ export default function CaixaMercadinho() {
   // FUNÇÃO PARA DELETAR PRODUTO
   const removerProduto = async (idProduto) => {
     try {
-      await api.delete(`/products/${idProduto}`); // <- Passe o id correto aqui
+      await api.delete(`/products/${idProduto}`);
 
       const produtosAtualizados = produtosLista.filter(
         (produto) => produto.id !== idProduto
@@ -337,7 +336,7 @@ export default function CaixaMercadinho() {
       const valorNumerico = parseFloat(produto.value);
       return isNaN(valorNumerico)
         ? total
-        : total + valorNumerico * produto.quantidade; // Multiplica o valor pela quantidade
+        : total + valorNumerico * produto.quantidade;
     }, 0);
   }, [produtosCompra]);
   useEffect(() => {
@@ -349,7 +348,6 @@ export default function CaixaMercadinho() {
     setProdutosCompra([]);
     localStorage.removeItem("produtosCompra");
     toast.success("🛒 Venda cancelada com sucesso!", {
-      // Exibe o toast
       position: "top-right",
       autoClose: 4000,
       hideProgressBar: false,
@@ -536,10 +534,10 @@ export default function CaixaMercadinho() {
             componentsProps={{
               tooltip: {
                 sx: {
-                  fontSize: "1rem", // aumenta a fonte
-                  backgroundColor: "#333", // opcional
-                  color: "#fff", // opcional
-                  padding: "8px 12px", // mais espaço
+                  fontSize: "1rem",
+                  backgroundColor: "#333",
+                  color: "#fff",
+                  padding: "8px 12px",
                 },
               },
             }}
@@ -557,10 +555,10 @@ export default function CaixaMercadinho() {
             componentsProps={{
               tooltip: {
                 sx: {
-                  fontSize: "1rem", // aumenta a fonte
-                  backgroundColor: "#333", // opcional
-                  color: "#fff", // opcional
-                  padding: "8px 12px", // mais espaço
+                  fontSize: "1rem",
+                  backgroundColor: "#333",
+                  color: "#fff",
+                  padding: "8px 12px",
                 },
               },
             }}
@@ -815,10 +813,10 @@ export default function CaixaMercadinho() {
           />
           <input
             className="InputMerc"
-            type="number" // Use type="number" para permitir apenas números
+            type="number"
             placeholder="Quantidade"
             value={quantidade}
-            onChange={(e) => setQuantidade(parseInt(e.target.value))} // Garante que a quantidade seja um número inteiro
+            onChange={(e) => setQuantidade(parseInt(e.target.value))}
           />
           <Autocomplete
             options={produtosLista.map((produto) => produto.name)}
@@ -842,7 +840,7 @@ export default function CaixaMercadinho() {
             }}
             ListboxProps={{
               style: {
-                maxHeight: "170px", // 5 itens * altura aproximada de 50px
+                maxHeight: "170px",
                 overflow: "auto",
               },
             }}

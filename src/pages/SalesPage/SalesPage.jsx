@@ -1,15 +1,5 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import "./SalesPage.css";
-import logo from "../../assets/logo.png";
-import api from "../../services/api";
-import { useNavigate } from "react-router";
+// MATERIAL UI
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import DescriptionIcon from "@mui/icons-material/Description";
-import { ExpandMore, ExpandLess } from "@mui/icons-material";
-import * as XLSX from "xlsx";
-
 import {
   Table,
   TableBody,
@@ -24,6 +14,19 @@ import {
   Tooltip,
   TablePagination,
 } from "@mui/material";
+import DescriptionIcon from "@mui/icons-material/Description";
+import { ExpandMore, ExpandLess } from "@mui/icons-material";
+// STATES / ROUTER E ETC
+import React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import * as XLSX from "xlsx";
+import logo from "../../assets/logo.png";
+// API E TOKEN(JWT)
+import api from "../../services/api";
+import { jwtDecode } from "jwt-decode";
+// CSS
+import "./SalesPage.css";
 
 export default function SalesPage() {
   const [sales, setSales] = useState([]);
@@ -33,7 +36,6 @@ export default function SalesPage() {
 
   // FUNÇÃO DE DROPDOWN
   const [expandedSales, setExpandedSales] = useState({});
-
   // CRIAR PÁGINAÇÃO & FILTRO
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5); // ex: 5 vendas por página
@@ -45,7 +47,7 @@ export default function SalesPage() {
     }, 0);
   };
 
-  // Função para filtrar as vendas
+  // FUNÇÃO PARA FILTRAR AS VENDAS
   const filteredSales = sales.filter((sale) => {
     const valorTotal = calcularValorTotal(sale).toLocaleString("pt-BR", {
       style: "currency",
@@ -69,19 +71,16 @@ export default function SalesPage() {
       );
     });
   });
-
   const salesPaginated = filteredSales.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0); // volta pra página 1 quando mudar a quantidade
+    setPage(0);
   };
 
   // GERAR EXCEL
@@ -98,7 +97,7 @@ export default function SalesPage() {
         Data: new Date(sale.date_sale).toLocaleDateString(),
         Produto: item.product.name,
         Quantidade: item.quantity,
-        Valortotal: index === 0 ? valorTotal : "", // Preenche valor total apenas na primeira linha
+        Valortotal: index === 0 ? valorTotal : "",
       }));
     });
 
@@ -116,7 +115,6 @@ export default function SalesPage() {
         const user = jwtDecode(token);
         const companyId = user.companyId;
 
-        // Modificação: Adiciona companyId como parâmetro na requisição
         const response = await api.get(`/sales?companyId=${companyId}`);
 
         setSales(response.data || []);
@@ -148,11 +146,11 @@ export default function SalesPage() {
         style={{
           color: "white",
           padding: "20px",
-          fontFamily: "Montserrat, sans-serif", // Fonte moderna
-          fontWeight: 400, // Peso da fonte leve
-          letterSpacing: "0.1em", // Espaçamento entre letras
-          textTransform: "uppercase", // Transformação do texto
-          textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)", // Sombra do texto
+          fontFamily: "Montserrat, sans-serif",
+          fontWeight: 400,
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          textShadow: "2px 2px 4px rgba(0, 0, 0, 0.3)",
         }}
       >
         Histórico de Vendas
@@ -172,9 +170,9 @@ export default function SalesPage() {
           componentsProps={{
             tooltip: {
               sx: {
-                fontSize: "1rem", // aumenta a fonte
-                backgroundColor: "#333", // opcional
-                color: "#fff", // opcional
+                fontSize: "1rem",
+                backgroundColor: "#333",
+                color: "#fff",
               },
             },
           }}
@@ -191,9 +189,9 @@ export default function SalesPage() {
           componentsProps={{
             tooltip: {
               sx: {
-                fontSize: "1rem", // aumenta a fonte
-                backgroundColor: "#333", // opcional
-                color: "#fff", // opcional
+                fontSize: "1rem",
+                backgroundColor: "#333",
+                color: "#fff",
               },
             },
           }}
@@ -282,7 +280,7 @@ export default function SalesPage() {
                       const isFirstItem = subIndex === 0;
 
                       if (!expandedSales[sale.id] && !isFirstItem) {
-                        return null; // Oculta itens não expandidos
+                        return null;
                       }
 
                       return (
