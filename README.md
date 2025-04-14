@@ -17,7 +17,7 @@ simples e ágil, facilitando as operações e garantindo mais praticidade para o
 <br>
 
 <p align="center">
-  <img alt="Img projeto1" src="./public/on1.jpg" width="100%">
+  <img alt="Img projeto1" src="./public/on1.jpeg" width="100%">
 </p>
 <p align="center">
   <img alt="Img projeto2" src="./public/on2.jpeg" width="100%">
