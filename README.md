@@ -4,7 +4,7 @@
 <h1 align="center"> OnPoint YenorWitt </h1>
 
 <p align="center">
-Um sistema de gestão de negócios robusto utilizando a biblioteca Roles do NestJS para atribuir telas de responsabilidade distintas a cada usuário cadastrado. Defina um usuário administrador de nível 1 com acesso irrestrito a todas as funcionalidades do sistema. Para usuários administradores de níveis diferentes, conceda acesso exclusivo às informações e ferramentas pertinentes à sua respectiva empresa e seus usuários, otimizando a organização de vendas e a distribuição de responsabilidades dentro do seu Ponto de Venda (PDV).o sistema proporciona uma experiência
+Um sistema de gestão de negócios robusto utilizando a biblioteca Roles do NestJS para atribuir telas de responsabilidade distintas a cada usuário cadastrado. Defina um usuário administrador de nível 1 com acesso irrestrito a todas as funcionalidades do sistema.<br /> Para usuários administradores de níveis diferentes, conceda acesso exclusivo às informações e ferramentas pertinentes à sua respectiva empresa e seus usuários, otimizando a organização de vendas e a distribuição de responsabilidades dentro do seu Ponto de Venda (PDV). <br/> O sistema proporciona uma experiência
 simples e ágil, facilitando as operações e garantindo mais praticidade para o usuário.
 </p>
 
